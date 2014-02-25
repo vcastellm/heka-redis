@@ -1,0 +1,3 @@
+[RedisPubSubInput]
+address = ":6379" # Redis server address
+channel = "*"
