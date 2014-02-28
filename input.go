@@ -65,6 +65,7 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 			// Grab an empty PipelinePack from the InputRunner
 			pack = <-packSupply
 			pack.Message.SetType("redis_pub_sub")
+			pack.Message.SetLogger(n.Channel)
 			pack.Message.SetPayload(string(n.Data))
 			pack.Message.SetTimestamp(time.Now().UnixNano())
 			var packs []*pipeline.PipelinePack
