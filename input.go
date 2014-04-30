@@ -9,9 +9,9 @@ import (
 )
 
 type RedisPubSubInputConfig struct {
-	Address string `toml:"address"`
-	Channel string `toml:"channel"`
-	Decoder string `toml:"decoder"`
+	Address     string `toml:"address"`
+	Channel     string `toml:"channel"`
+	DecoderName string `toml:"decoder"`
 }
 
 type RedisPubSubInput struct {
@@ -46,9 +46,9 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 	// Get the InputRunner's chan to receive empty PipelinePacks
 	packSupply := ir.InChan()
 
-	if rpsi.conf.Decoder != "" {
-		if dRunner, ok = h.DecoderRunner(rpsi.conf.Decoder); !ok {
-			return fmt.Errorf("Decoder not found: %s", rpsi.conf.Decoder)
+	if rpsi.conf.DecoderName != "" {
+		if dRunner, ok = h.DecoderRunner(rpsi.conf.DecoderName, fmt.Sprintf("%s-%s", ir.Name(), rpsi.conf.DecoderName)); !ok {
+			return fmt.Errorf("Decoder not found: %s", rpsi.conf.DecoderName)
 		}
 		decoder = dRunner.Decoder()
 	}
