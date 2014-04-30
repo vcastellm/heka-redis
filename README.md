@@ -1,7 +1,7 @@
 heka-redis
 ==========
 
-Redis PubSub input/output plugins for [Mozilla Heka](http://hekad.readthedocs.org/)
+Redis PubSub input plugin for [Mozilla Heka](http://hekad.readthedocs.org/)
 
 See [Building *hekad* with External Plugins](http://hekad.readthedocs.org/en/latest/installing.html#build-include-externals)
 for compiling in plugins.
