@@ -60,8 +60,6 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 	for {
 		switch n := psc.Receive().(type) {
 		case redis.PMessage:
-			ir.LogMessage(fmt.Sprintf("PMessage: %s %s %s\n", n.Pattern, n.Channel, n.Data))
-
 			// Grab an empty PipelinePack from the InputRunner
 			pack = <-packSupply
 			pack.Message.SetType("redis_pub_sub")
