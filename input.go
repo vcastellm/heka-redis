@@ -88,8 +88,9 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 				return errors.New("No channel to subscribe")
 			}
 		case error:
-			fmt.Printf("error: %v\n", n)
-			return n
+			ir.LogError(fmt.Errorf("error: %v\n", n))
+			pack.Recycle()
+			continue
 		}
 	}
 
