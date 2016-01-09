@@ -26,10 +26,6 @@ func (rpsi *RedisPubSubInput) ConfigStruct() interface{} {
 func (rpsi *RedisPubSubInput) Init(config interface{}) error {
 	rpsi.conf = config.(*RedisPubSubInputConfig)
 
-	return rpsi.connect()
-}
-
-func (rpsi *RedisPubSubInput) connect() error {
 	var err error
 	rpsi.conn, err = redis.Dial("tcp", rpsi.conf.Address)
 	if err != nil {
@@ -93,11 +89,7 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 			}
 		case error:
 			ir.LogError(fmt.Errorf("error: %v\n", n))
-			pack.Recycle()
-			rpsi.connect()
-			psc = redis.PubSubConn{Conn: rpsi.conn}
-			psc.PSubscribe(rpsi.conf.Channel)
-			continue
+			return n
 		}
 	}
 
