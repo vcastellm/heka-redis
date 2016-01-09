@@ -64,7 +64,8 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 			pack = <-packSupply
 			pack.Message.SetType("redis_pub_sub")
 			pack.Message.SetLogger(n.Channel)
-
+			pack.Message.SetPayload(string(n.Data))
+			pack.Message.SetTimestamp(time.Now().UnixNano())
 			var packs []*pipeline.PipelinePack
 			if decoder == nil {
 				packs = []*pipeline.PipelinePack{pack}
@@ -89,7 +90,7 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 		case error:
 			ir.LogError(fmt.Errorf("error: %v\n", n))
 			pack.Recycle()
-			psc := redis.PubSubConn{Conn: rpsi.conn}
+			psc = redis.PubSubConn{Conn: rpsi.conn}
 			psc.PSubscribe(rpsi.conf.Channel)
 			continue
 		}
