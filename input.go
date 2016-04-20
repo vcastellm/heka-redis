@@ -80,7 +80,7 @@ func (rpsi *RedisPubSubInput) Run(ir pipeline.InputRunner, h pipeline.PluginHelp
 				if e != nil {
 					ir.LogError(fmt.Errorf("Couldn't parse Redis message: %s", n.Data))
 				}
-				pack.Recycle()
+				pack.Recycle(nil)
 			}
 		case redis.Subscription:
 			ir.LogMessage(fmt.Sprintf("Subscription: %s %s %d\n", n.Kind, n.Channel, n.Count))
